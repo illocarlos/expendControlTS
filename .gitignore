@@ -1,0 +1,31 @@
+
+# Archivos temporales o generados por el sistema
+*.log
+*.swp
+.DS_Store
+
+# Carpeta node_modules generada por npm/yarn
+node_modules/
+
+# Carpeta generada por IDEs
+.idea/
+
+# Archivos de configuración locales
+.env
+
+# Archivos de compilación
+/build
+
+# Archivos de dependencias específicos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de dependencias específicos de Java
+*.class
+
+# Archivos de dependencias específicos de Ruby
+*.gem
+
+# Archivos de dependencias específicos de PHP
+vendor/
