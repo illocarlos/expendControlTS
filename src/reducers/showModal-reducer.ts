@@ -7,6 +7,7 @@
 //es decir es como si usaramos funciones  y le pasamos un argumento que seria el payload
 //puede haber infinidad de action  y le puedes pasar lo que te apetezca siendo typescript aqui declaramos de que tipo sera 
 //
+
 export type ShowAction =
     { type: 'show-modal' } |
     { type: 'close-modal' }
@@ -51,7 +52,7 @@ export const showReducer = (
 
         return {
             ...state,
-            showModal: false
+            showModal: false,
         }
     }
 

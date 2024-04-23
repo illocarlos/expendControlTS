@@ -1,5 +1,5 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from "react"
-import { DraftExpensive, Expense, Value } from "../types/types"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
+import { DraftExpensive, Value } from "../types/types"
 import { categories } from "../data/categoriesExpense"
 import DatePicker from "react-date-picker"
 import 'react-calendar/dist/Calendar.css'
@@ -19,18 +19,20 @@ const Expendform = () => {
         date: new Date()
     })
 
-    const resetForm = () => {
-        expense.amount = 0,
-            expense.expenseName = '',
-            expense.category = '',
-            expense.date = new Date()
-    }
+    const [previousAmount, setPreviousAmount] = useState(0)
 
     const [error, setError] = useState("")
     const { dispatch: showDispatch } = useShow()
-    const { dispatch: budgetDispatch } = useBudget()
+    const { dispatch: budgetDispatch, state, totalAviable } = useBudget()
 
+    useEffect(() => {
+        if (state.editId) {
+            const editExpens = state.expenses.filter(eachexpe => eachexpe.id === state.editId)[0]
+            setExpense(editExpens)
+            setPreviousAmount(editExpens.amount)
 
+        }
+    }, [state.editId])
 
 
     const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
@@ -49,7 +51,15 @@ const Expendform = () => {
     }
 
 
+    const resetModalAndexpense = () => {
+        budgetDispatch({ type: 'reset-editid-expensive' })
+        showDispatch({ type: 'close-modal' })
+        setPreviousAmount(0)
+
+    }
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
         e.preventDefault()
         if (Object.values(expense).includes("")) {
             setError("Fields Required")
@@ -58,10 +68,24 @@ const Expendform = () => {
             }, 5000)
             return
         }
-        budgetDispatch({ type: 'add-expensive', payload: { expense } })
-        // reinicia el modal
-        resetForm()
-        showDispatch({ type: 'close-modal' })
+        if ((expense.amount - previousAmount) > totalAviable) {
+            setError("budget insufficient")
+            return
+        }
+
+
+        if (state.editId) {
+            budgetDispatch({ type: 'edit-expensive', payload: { expenses: { id: state.editId, ...expense } } })
+
+
+        } else {
+
+            budgetDispatch({ type: 'add-expensive', payload: { expense } })
+        }
+
+
+
+        resetModalAndexpense()
 
     }
 
@@ -73,7 +97,7 @@ const Expendform = () => {
             action="">
             <legend
                 className="uppercase text-center text-2xl font-black border-b-4 border-black"
-            > new expend</legend>
+            > {state.editId ? 'edit expend' : 'new expend'}</legend>
             {isError && <ErrorMessage
                 error={error}
             />}
@@ -133,7 +157,7 @@ const Expendform = () => {
                 />
             </div>
             <input
-                value={'save expend'}
+                value={state.editId ? 'edit expend' : 'create expend'}
                 className="cursor-pointer uppercase bg-black w-full p-2 text-white font-bold rounded-lg "
                 type="submit" />
         </form>

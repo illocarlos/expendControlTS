@@ -1,17 +1,13 @@
 
-type categoriesType = {
-    id: string,
-    name: string,
-    icon: string
-}
 
+import { CategoriesType } from "../types/types"
 
-export const categories: categoriesType[] = [
-    { id: '1', name: 'Saving', icon: 'saving' },
-    { id: '2', name: 'Food', icon: 'food' },
-    { id: '3', name: 'Home', icon: 'home' },
-    { id: '4', name: 'Expens', icon: 'expens' },
-    { id: '5', name: 'Leisure', icon: 'leisure' },
-    { id: '6', name: 'Healty', icon: 'healty' },
-    { id: '7', name: 'Suscriptions', icon: 'suscriptions' },
+export const categories: CategoriesType[] = [
+    { id: '1', name: 'Saving', icon: 'ahorro' },
+    { id: '2', name: 'Food', icon: 'comida' },
+    { id: '3', name: 'Home', icon: 'casa' },
+    { id: '4', name: 'Expens', icon: 'gastos' },
+    { id: '5', name: 'Leisure', icon: 'ocio' },
+    { id: '6', name: 'Healty', icon: 'salud' },
+    { id: '7', name: 'Suscriptions', icon: 'suscripciones' },
 ];

@@ -7,10 +7,10 @@ import { ShowModalProvider } from './context/ShowModalContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ShowModalProvider>
-      <BudgetProvider>
+    <BudgetProvider>
+      <ShowModalProvider>
         <App />
-      </BudgetProvider>
-    </ShowModalProvider>
+      </ShowModalProvider>
+    </BudgetProvider>
   </React.StrictMode>,
 )
